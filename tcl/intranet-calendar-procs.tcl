@@ -42,6 +42,8 @@ ad_proc -public package_calendar_id {} {
 
 ad_proc -public im_calendar_home_component {
     { -skip 0 }
+    { -filter_clause ""}
+    { -object_type ""}
 } {
     Returns the package id of the intranet-calendar module
 } {
@@ -63,6 +65,13 @@ ad_proc -public im_calendar_home_component {
 	[list show_calendar_name_p 0] \
 	[list return_url [im_url_with_query]] \
     ]
+
+    if {$filter_clause ne ""} {
+	lappend params [list filter_clause "$filter_clause"]
+    } 
+    if {$object_type ne ""} {
+	lappend params [list object_type "$object_type"]
+    } 
     set result [ad_parse_template -params $params "/packages/calendar/www/view-week-display"]
     return $result
 }
